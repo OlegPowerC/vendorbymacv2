@@ -10,6 +10,7 @@ import (
 	"io/ioutil"
 	"os"
 	"regexp"
+	"runtime"
 	"strings"
 )
 
@@ -28,10 +29,16 @@ type MacDB struct {
 }
 
 func stoui36tomap(content string, pointertomap *map[string][]OUIprefix28_36) (err error) {
-	OUIp28 := strings.Split(content, "\r\n\r\n")
+	RetDelimDouble := "\n\n"
+	RetDelimSingle := "\n"
+	if runtime.GOOS == "windows" {
+		RetDelimDouble = "\r\n\r\n"
+		RetDelimSingle = "\r\n"
+	}
+	OUIp28 := strings.Split(content, RetDelimDouble)
 
 	for _, OUI28val := range OUIp28 {
-		OUI28valPs := strings.Split(OUI28val, "\r\n")
+		OUI28valPs := strings.Split(OUI28val, RetDelimSingle)
 		ValidF6b := false
 		F6BOUIstrs := ""
 		for vin1, vval1 := range OUI28valPs {
