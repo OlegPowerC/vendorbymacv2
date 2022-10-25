@@ -79,3 +79,27 @@ func TestMacDB_Init(t *testing.T) {
 		}
 	}
 }
+
+func TestMacDB_GetVendor(t *testing.T) {
+	var TestedStruct MacDB
+	MacHPnew := [6]byte{0x00, 0x50, 0xc2, 0x7d, 0x50, 0x02}
+	InitErr := TestedStruct.Init("", "", "", "iabshorttest.txt")
+	if InitErr != nil {
+		t.Errorf("Error in init: %s", InitErr)
+	} else {
+		if !TestedStruct.Initialized {
+			if InitErr != nil {
+				t.Errorf("Error in init")
+			}
+		} else {
+			Er, Vn := TestedStruct.GetVendor(MacHPnew)
+			if Er != nil {
+				t.Errorf("Error in init: %s", Er)
+			}
+			if Vn != "DEUTA-WERKE GmbH" {
+				t.Errorf("Expected vendor '', but got: %s", Vn)
+			}
+		}
+	}
+
+}

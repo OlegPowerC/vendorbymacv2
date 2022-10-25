@@ -1,0 +1,21 @@
+OUI                                                         Organization
+IAB Range                                                   Organization
+                                                            Address
+
+00-50-C2                      (hex)                         DEUTA-WERKE GmbH
+7D5000-7D5FFF                 (base 16)                     DEUTA-WERKE GmbH
+                                                            Paffrather Strasse 140
+                                                            Bergisch-Gladbach  NRW  51465
+                                                            DE
+
+40-D8-55                      (hex)                         DEUTA-WERKE GmbH
+11C000-11CFFF                 (base 16)                     DEUTA-WERKE GmbH
+                                                            Paffrather Strasse 140
+                                                            Bergisch Gladbach  Northrhine Westfalia  51465
+                                                            DE
+
+40-D8-55                      (hex)                         KRONOTECH SRL
+1A1000-1A1FFF                 (base 16)                     KRONOTECH SRL
+                                                            VIALE UNGHERIA 125 - UDINE
+                                                            CAMPOFORMIDO    33030
+                                                            US
