@@ -28,6 +28,42 @@ type MacDB struct {
 	Initialized    bool
 }
 
+func standardouitomap(content string, pointertomap *map[string]string) (err error) {
+	RetDelimDouble := "\n\n"
+	RetDelimSingle := "\n"
+	if runtime.GOOS == "windows" {
+		RetDelimDouble = "\r\n\r\n"
+		RetDelimSingle = "\r\n"
+	}
+	OUIstd := strings.Split(content, RetDelimDouble)
+
+	for _, OUIstdval := range OUIstd {
+		OUIstdvalPs := strings.Split(OUIstdval, RetDelimSingle)
+		F6BOUstdIstrs := ""
+		for vin1, vval1 := range OUIstdvalPs {
+			if vin1 == 0 {
+				if len(vval1) > 8 {
+					vb, _ := regexp.MatchString(`^[0-9A-F]{2}-[0-9A-F]{2}-[0-9A-F{2}]`, vval1)
+					F6BOUstdIstrs = strings.ToLower(fmt.Sprintf("%s%s%s", vval1[0:2], vval1[3:5], vval1[6:8]))
+					if vb {
+						vendor := ""
+						findvendorsbytabs := strings.Split(vval1, "\t\t")
+						if len(findvendorsbytabs) == 2 {
+							vendor = findvendorsbytabs[1]
+						}
+						if _, ok := (*pointertomap)[F6BOUstdIstrs]; ok {
+							continue
+						} else {
+							(*pointertomap)[F6BOUstdIstrs] = vendor
+						}
+					}
+				}
+			}
+		}
+	}
+	return nil
+}
+
 func stoui36tomap(content string, pointertomap *map[string][]OUIprefix28_36) (err error) {
 	RetDelimDouble := "\n\n"
 	RetDelimSingle := "\n"
@@ -143,32 +179,7 @@ func (MacData *MacDB) Init(FileCustom string, FileStandard string, FilePrefix36 
 			return standardFileerr
 		}
 		stringStandard := string(standardFile)
-		OUIstd := strings.Split(stringStandard, "\r\n\r\n")
-
-		for _, OUIstdval := range OUIstd {
-			OUIstdvalPs := strings.Split(OUIstdval, "\r\n")
-			F6BOUstdIstrs := ""
-			for vin1, vval1 := range OUIstdvalPs {
-				if vin1 == 0 {
-					if len(vval1) > 8 {
-						vb, _ := regexp.MatchString(`^[0-9A-F]{2}-[0-9A-F]{2}-[0-9A-F{2}]`, vval1)
-						F6BOUstdIstrs = strings.ToLower(fmt.Sprintf("%s%s%s", vval1[0:2], vval1[3:5], vval1[6:8]))
-						if vb {
-							vendor := ""
-							findvendorsbytabs := strings.Split(vval1, "\t\t")
-							if len(findvendorsbytabs) == 2 {
-								vendor = findvendorsbytabs[1]
-							}
-							if _, ok := ouistdmap[F6BOUstdIstrs]; ok {
-								continue
-							} else {
-								ouistdmap[F6BOUstdIstrs] = vendor
-							}
-						}
-					}
-				}
-			}
-		}
+		standardouitomap(stringStandard, &ouistdmap)
 	}
 	MacData.OUIMapStandard = ouistdmap
 	MacData.Initialized = true
