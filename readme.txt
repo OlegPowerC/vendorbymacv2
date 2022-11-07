@@ -38,6 +38,13 @@ Few known MAC addresses for example:
 8C:8D:28:46:49:C9
 
 Added JS code generator.
-It is used for make FireFox extension mactoven: https://addons.mozilla.org/ru/firefox/addon/mactoven/
+It is used for make FireFox/Chrome/Edge extension mactoven:
+https://addons.mozilla.org/ru/firefox/addon/mactoven/
+https://microsoftedge.microsoft.com/addons/detail/mactoven/jeodfaajafmcmkphhjplllmcfeeojggp
+https://chrome.google.com/webstore/detail/mactoven/djjcimpalbbihofehchmofbgibebojkm?hl=ru&authuser=0
+
+07.11.2022
+Modified mdata.js
+Added event listener to iframes
 
 

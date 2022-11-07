@@ -2,7 +2,7 @@ var frames = document.getElementsByTagName("frame");
 for (var i = 0; i < frames.length; i++) {
     frames[i].addEventListener('load', onloadframe, true)
 };
-
+console.log("Frame count");
 console.log(i);
 
 function onloadframe(){
@@ -13,6 +13,23 @@ function onloadframe(){
         framesinframe[i].addEventListener('load', onloadframe, true);
     };
 };
+
+var iframes = document.getElementsByTagName("iframe");
+for (var ifr = 0; ifr < iframes.length; ifr++) {
+    iframes[ifr].addEventListener('load', onloadiframe, true)
+};
+console.log("IFrame count");
+console.log(ifr);
+
+function onloadiframe(){
+    this.contentWindow.addEventListener('mouseup',MacListenner,false);
+    var framesinframe = this.contentWindow.document.getElementsByTagName("iframe");
+    for (var ifr = 0; ifr < framesinframe.length; ifr++) {
+        console.log("add event listenner load iframe in iframe");
+        framesinframe[ifr].addEventListener('load', onloadframe, true);
+    };
+};
+
 
 window.addEventListener('mouseup',MacListenner,false);
 function MacListenner() {
