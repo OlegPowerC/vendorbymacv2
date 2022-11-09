@@ -2,49 +2,66 @@ var frames = document.getElementsByTagName("frame");
 for (var i = 0; i < frames.length; i++) {
     frames[i].addEventListener('load', onloadframe, true)
 };
-console.log("Frame count");
-console.log(i);
+//console.log("Frame count");
+//console.log(i);
 
 function onloadframe(){
+    console.log("onloadframe Frame loaded");
     this.contentWindow.addEventListener('mouseup',MacListenner,false);
     var framesinframe = this.contentWindow.document.getElementsByTagName("frame");
     for (var i = 0; i < framesinframe.length; i++) {
         console.log("add event listenner load frame in frame");
         framesinframe[i].addEventListener('load', onloadframe, true);
     };
+    var iframesinframe = this.contentWindow.document.getElementsByTagName("iframe");
+    for (var i = 0; i < iframesinframe.length; i++) {
+        console.log("add event listenner load iframe in frame");
+        if (iframesinframe[i].contentWindow.document.readyState == 'complete') {
+            console.log("document in iFrame already loaded");
+            iframesinframe[i].contentWindow.addEventListener('mouseup',MacListenner,false);
+        }
+        //iframesinframe[i].addEventListener("load", onloadiframe);
+        iframesinframe[i].contentWindow.addEventListener('load',onloadframe,false);
+    };
 };
 
 var iframes = document.getElementsByTagName("iframe");
 for (var ifr = 0; ifr < iframes.length; ifr++) {
-    iframes[ifr].addEventListener('load', onloadiframe, true)
+    iframes[ifr].addEventListener('load', onloadframe, true)
 };
-console.log("IFrame count");
-console.log(ifr);
+//console.log("IFrame count");
+//console.log(ifr);
 
-function onloadiframe(){
-    this.contentWindow.addEventListener('mouseup',MacListenner,false);
-    var framesinframe = this.contentWindow.document.getElementsByTagName("iframe");
-    for (var ifr = 0; ifr < framesinframe.length; ifr++) {
-        console.log("add event listenner load iframe in iframe");
-        framesinframe[ifr].addEventListener('load', onloadframe, true);
-    };
+var frames = document.getElementsByTagName("frame");
+for (var i = 0; i < frames.length; i++) {
+    frames[i].addEventListener('load', onloadframe, true)
 };
+//console.log("Frame count:",i);
 
+var iframes = document.getElementsByTagName("iframe");
+for (var ifr = 0; ifr < iframes.length; ifr++) {
+    iframes[ifr].addEventListener('load', onloadframe, true)
+};
+//console.log("IFrame count",ifr);
 
 window.addEventListener('mouseup',MacListenner,false);
 function MacListenner() {
     let mpan = this.document.getElementById("CiscoLiveMACATTRID");
     if (mpan != null){
         mpan.remove();
+        //If div already exsixt then remove it and return
+        return
     }
 
     let inputflag = false;
 
     if(this.document.activeElement.tagName.toUpperCase() == "INPUT"){
         ms = this.document.activeElement.value;
+        //console.log("This element is Input and text is:",ms);
         inputflag = true;
     }else{
         ms = this.window.getSelection().toString();
+        //console.log("This regular text, and text is:",ms);
     }
 
     if (ms != '') {
@@ -86,7 +103,7 @@ function MacListenner() {
                 //console.log("Vendor not found")
                 ventext = "Vendor not found"
             }
-            console.log(ventext);
+            //console.log(ventext);
 
             let rect = this.document.activeElement.getBoundingClientRect();
             if(inputflag == false){
